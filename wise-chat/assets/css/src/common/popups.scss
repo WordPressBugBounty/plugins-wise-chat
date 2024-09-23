@@ -1,0 +1,361 @@
+@import "./globals";
+@import "./recent";
+@import "./emoticons/emoticons";
+@import "./channel/messages/reactions";
+
+@mixin popups {
+  .wcPopup-overlay {
+    background: rgba(255,255,255,.7);
+  }
+
+  .wcPopup-content {
+    @include globals;
+    @include emoticons;
+    @include reactions;
+  }
+
+  [role=tooltip].wcActionsPopup-content {
+    background-color: #f7f7f7;
+    display: flex;
+    align-items: center;
+    width: auto;
+
+    .wcActions {
+      display: flex;
+      align-items: center;
+
+      .wcAction {
+        padding: 0;
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        position: relative;
+        text-decoration: none;
+        border: 1px solid #A6A6A6;
+        border-radius: 50%;
+        transition: all .2s ease-in;
+        font-size: 0.9%;
+
+        &:hover {
+          background-color: #dfdfdf;
+        }
+
+        &:focus {
+          outline: none;
+        }
+
+        &:not(:last-child) {
+          margin-right: 7px;
+        }
+      }
+
+      .wcApprove {
+        background: transparent url("../../gfx/icons/approve.svg") no-repeat 50%;
+      }
+
+      .wcDelete {
+        background: transparent url("../../gfx/icons/x.svg") no-repeat 50%;
+      }
+
+      .wcEdit {
+        background: transparent url("../../gfx/icons/edit.svg") no-repeat 50%;
+      }
+
+      .wcMute {
+        background: transparent url("../../gfx/icons/mute.svg") no-repeat 50%;
+      }
+
+      .wcBan {
+        background: transparent url("../../gfx/icons/ban.svg") no-repeat 50%;
+      }
+
+      .wcSpam {
+        background: transparent url("../../gfx/icons/spam.svg") no-repeat 50%;
+      }
+
+      .wcReply {
+        background: transparent url("../../gfx/icons/reply.svg") no-repeat 50%;
+      }
+
+
+    }
+  }
+
+  .wcPopup-overlay.wcEmoticonsPopup-overlay {
+    background: none;
+  }
+
+  .wcEmoticonsPopup-content {
+    background-color: #f7f7f7;
+    height: 280px;
+    text-align: center;
+    padding: 10px 5px;
+
+    .wcAddonsLibrary {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+
+      .wcCategories {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 7px;
+        .wcCategoryButton {
+          cursor: pointer !important;
+          display: inline-block;
+          width: 30px;
+          height: 30px;
+          position: relative;
+          overflow: hidden;
+          transition: all .2s ease-in;
+          opacity: 0.4;
+
+          &.wcEmoticon {
+            background: transparent url(../../gfx/icons/emoticon.svg) center center no-repeat;
+            background-size: 25px;
+          }
+          &.wcGIF {
+            background: transparent url(../../gfx/icons/gif.svg) center center no-repeat;
+            background-size: 25px;
+          }
+          &:hover, &.wcCategoryButtonActive {
+            opacity: 1;
+          }
+        }
+      }
+      .wcCategory {
+        flex-grow: 1;
+      }
+    }
+
+    .wcCategory.wcCategoryEmoticons {
+      a {
+        display: inline-block;
+        border: none;
+        line-height: 28px;
+        border-radius: 50%;
+        text-decoration: none;
+        outline: none;
+      }
+
+      a img {
+        border: none;
+        border-radius: 0;
+        margin: 3px;
+        padding: 0;
+        max-width: 28px;
+      }
+    }
+  }
+
+  [role=tooltip].wcColorsPopup-content {
+    background-color: #f7f7f7;
+    width: 220px;
+    height: 157px;
+    text-align: center;
+    padding: 5px 5px;
+    line-height: 12px;
+    overflow: hidden;
+
+    a {
+      display: inline-block;
+      text-decoration: none;
+      outline: none;
+      height: 12px;
+      width: 12px;
+      border: 1px solid #000;
+      margin: 2px;
+      cursor: pointer;
+      line-height: 12px;
+      border-radius: 3px;
+    }
+
+    a:hover {
+      border-color: #a6a6a6;
+    }
+  }
+
+  .wcAlertPopup-content {
+    @media only screen and (max-width: 576px) {
+      width: 95%;
+    }
+    @media only screen and (min-width: 992px) {
+      width: 26%;
+    }
+
+    padding: 0;
+
+    .wcHeader {
+      padding: 10px;
+      border-bottom: 1px solid #dfdfdf;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      h5 {
+        margin: 0;
+        padding: 0;
+        font-size: 1.1rem;
+      }
+      .wcClose {
+        display: inline-block;
+        text-decoration: none;
+        outline: none;
+        background: transparent url(../../gfx/icons/x.svg) center center no-repeat;
+        background-size: 100%;
+        width: 42px;
+        height: 42px;
+        margin: 0;
+        cursor: pointer;
+      }
+    }
+
+    .wcBody {
+      padding: 10px;
+    }
+
+    .wcFooter {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 10px;
+      border-top: 1px solid #dfdfdf;
+
+      > * {
+        width: auto;
+        display: inline-block;
+        float: none;
+      }
+
+      > *:not(:last-child) {
+        margin-right: 10px;
+      }
+    }
+
+    // stream confirmation
+    &.wcStreamVideoConfirmation-content {
+      .wcBody {
+        .wcStreamRequest {
+          text-align: center;
+
+          .wcAvatar {
+            border-radius: 5px;
+            max-height: 150px;
+            max-width: 150px;
+          }
+          .wcStreamCaller {
+            font-size: 1.5em;
+          }
+          .wcStreamIncomingText {
+            margin-top: 15px;
+          }
+        }
+      }
+      .wcFooter {
+        justify-content: center;
+
+        .wcButton {
+          outline: none;
+          padding-top: 50px;
+          background-position: center top;
+          background-repeat: no-repeat;
+          background-size: 55px;
+          min-width: 55px;
+          text-align: center;
+
+          &.wcDeclineButton {
+            background-image: url(../../gfx/icons/video-calls/video-decline.svg);
+          }
+
+          &.wcAcceptButton {
+            background-image: url(../../gfx/icons/video-calls/video-accept.svg);
+          }
+
+          &:not(:last-child) {
+            margin-right: 20px;
+          }
+          &:active, &:focus {
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+
+  [role=tooltip].wcInfoWindowPopup-content {
+    background-color: #f7f7f7;
+    width: 350px;
+    height: 170px;
+    padding: 5px 5px;
+    line-height: 1.1em;
+
+    .wcContent {
+      display: flex;
+
+      .wcLeft {
+        flex-grow: 0;
+
+        img {
+          border-radius: 50%;
+          box-shadow: none;
+          border: none;
+          vertical-align: middle;
+          margin-right: 10px;
+          max-width: 90px;
+        }
+      }
+      .wcRight {
+        flex-grow: 1;
+
+        .wcName {
+          font-size: 1.1em;
+          outline: 0;
+        }
+
+        .wcDetails {
+          margin-top: 5px;
+        }
+      }
+    }
+
+    a {
+
+    }
+
+    a:hover {
+
+    }
+  }
+
+  [role=tooltip].wcRecentPopup-content {
+    background-color: #f7f7f7;
+    width: 400px;
+    height: 250px;
+    padding: 5px 5px;
+
+    @include recent;
+  }
+
+  [role=tooltip].wcReactionsPopup-content {
+    background-color: #f7f7f7;
+    width: auto;
+    padding: 5px 5px;
+  }
+
+  .wcDebugPopup-content {
+    .wcDebugPopupBody {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      .wcLogs {
+        overflow-y: auto;
+        flex-grow: 1;
+        border: 1px solid #dfdfdf;
+        padding: 5px;
+      }
+      .wcFooter {
+        padding-top: 10px;
+        text-align: right;
+      }
+    }
+  }
+}
