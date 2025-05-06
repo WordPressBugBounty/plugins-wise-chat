@@ -403,6 +403,10 @@ class WiseChatImagesService {
 		if (!file_exists($htaccessPath)) {
 			file_put_contents($htaccessPath, 'Options All -Indexes');
 		}
+		$indexPath = rtrim($directory, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.'index.php';
+		if (!file_exists($indexPath)) {
+			file_put_contents($indexPath, '<'.'?'.'php // Silence is golden. ');
+		}
 	}
 	
 }
