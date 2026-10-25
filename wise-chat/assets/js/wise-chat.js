@@ -12856,6 +12856,7 @@ var HtmlRenderer = /*#__PURE__*/function () {
         regExp: /\[sound id="(.+?)" src="(.+?)" name-org="(.+?)"]/g,
         callback: function callback(match, i, parserIndex) {
           var attachmentSrc = match[2];
+          attachmentSrc = (!attachmentSrc.match(/^(https|http|ftp|mailto):/) ? "https://" : '') + attachmentSrc;
 
           if (soundsConfig.enabled) {
             return /*#__PURE__*/_react["default"].createElement("audio", {
@@ -12880,6 +12881,8 @@ var HtmlRenderer = /*#__PURE__*/function () {
           var soundPlayer = _this.configuration["interface"].message.attachmentsSoundPlayer;
 
           if (_this.configuration["interface"].message.attachments) {
+            attachmentSrc = (!attachmentSrc.match(/^(https|http|ftp|mailto):/) ? "https://" : '') + attachmentSrc;
+
             if (videoPlayer && _this.isFile(attachmentSrc, 'mp4')) {
               return /*#__PURE__*/_react["default"].createElement("video", {
                 key: _this.currentKey++,
@@ -12951,6 +12954,8 @@ var HtmlRenderer = /*#__PURE__*/function () {
 
           if (_this.configuration["interface"].message.images) {
             var viewer = _this.configuration["interface"].message.imagesViewer;
+            imageSrc = (!imageSrc.match(/^(https|http|ftp|mailto):/) ? "https://" : '') + imageSrc;
+            imageThumbnailSrc = (!imageThumbnailSrc.match(/^(https|http|ftp|mailto):/) ? "https://" : '') + imageThumbnailSrc;
             return /*#__PURE__*/_react["default"].createElement("a", {
               key: _this.currentKey++,
               href: imageSrc,
@@ -12989,6 +12994,7 @@ var HtmlRenderer = /*#__PURE__*/function () {
         callback: function callback(match, i, parserIndex) {
           var imageSrc = match[1];
           var className = match[2] ? match[3] : '';
+          imageSrc = (!imageSrc.match(/^(https|http|ftp|mailto):/) ? "https://" : '') + imageSrc;
 
           if (_this.configuration["interface"].message.images) {
             return /*#__PURE__*/_react["default"].createElement("img", {

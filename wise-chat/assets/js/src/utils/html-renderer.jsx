@@ -32,6 +32,8 @@ export default class HtmlRenderer {
 				callback: (match, i, parserIndex) => {
 					let attachmentSrc = match[2];
 
+					attachmentSrc = (!attachmentSrc.match(/^(https|http|ftp|mailto):/) ? "https://" : '') + attachmentSrc;
+
 					if (soundsConfig.enabled) {
 						return <audio key={ this.currentKey++ } controls data-org={ Base64.encode(match[0]) } controlsList="nodownload noplaybackrate">
 							<source src={ attachmentSrc } type="audio/mpeg" />
@@ -50,6 +52,8 @@ export default class HtmlRenderer {
 					const soundPlayer = this.configuration.interface.message.attachmentsSoundPlayer;
 
 					if (this.configuration.interface.message.attachments) {
+						attachmentSrc = (!attachmentSrc.match(/^(https|http|ftp|mailto):/) ? "https://" : '') + attachmentSrc;
+
 						if (videoPlayer && this.isFile(attachmentSrc, 'mp4')) {
 							return <video key={ this.currentKey++ } controls data-org={ Base64.encode(match[0]) } controlsList="nodownload noplaybackrate">
 								<source src={attachmentSrc} type="video/mp4"/>
@@ -93,6 +97,9 @@ export default class HtmlRenderer {
 					if (this.configuration.interface.message.images) {
 						const viewer = this.configuration.interface.message.imagesViewer;
 
+						imageSrc = (!imageSrc.match(/^(https|http|ftp|mailto):/) ? "https://" : '') + imageSrc;
+						imageThumbnailSrc = (!imageThumbnailSrc.match(/^(https|http|ftp|mailto):/) ? "https://" : '') + imageThumbnailSrc;
+
 						return <a
 							key={ this.currentKey++ }
 							href={ imageSrc }
@@ -122,6 +129,7 @@ export default class HtmlRenderer {
 				callback: (match, i, parserIndex) => {
 					let imageSrc = match[1];
 					let className = match[2] ? match[3] : '';
+					imageSrc = (!imageSrc.match(/^(https|http|ftp|mailto):/) ? "https://" : '') + imageSrc;
 
 					if (this.configuration.interface.message.images) {
 						return <img key={ this.currentKey++ } src={ imageSrc } className={ `wcImage wcFunctional ${className}` } alt="Chat image" data-org={ Base64.encode(match[0]) } />;
