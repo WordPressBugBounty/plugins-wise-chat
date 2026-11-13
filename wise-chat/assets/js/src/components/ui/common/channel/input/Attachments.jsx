@@ -87,7 +87,7 @@ class Attachments extends React.Component {
 		if (this.IMAGE_TYPES.indexOf(this.getExtension(fileDetails)) > -1) {
 			const fileReader = new FileReader();
 			fileReader.onload = event => {
-				this.props.prepareImage(event.target.result, this.props.channel.id);
+				this.props.prepareImage(event.target.result, this.props.channel.id, { nonce: this.props.application.nonces['endpoint.image'] });
 			};
 			fileReader.readAsDataURL(fileDetails);
 		} else {

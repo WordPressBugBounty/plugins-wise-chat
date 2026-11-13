@@ -114,8 +114,9 @@ export default class AjaxEngineSender  {
 	 * @param {Function} successListener
 	 * @param {Function} progressListener
 	 * @param {Function} errorListener
+	 * @param {Object} params
 	 */
-	prepareImage(imageSource, successListener, progressListener, errorListener) {
+	prepareImage(imageSource, successListener, progressListener, errorListener, params = {}) {
 		if (!$.isFunction(successListener) || !$.isFunction(progressListener) || !$.isFunction(errorListener)) {
 			throw new Error('Missing listeners');
 		}
@@ -128,7 +129,8 @@ export default class AjaxEngineSender  {
 				url: this.prepareImageEndpoint,
 				data: {
 					data: imageSource,
-					checksum: this.configuration.checksum
+					checksum: this.configuration.checksum,
+					...params
 				},
 				progressUpload: function(event) {
 					if (event.lengthComputable) {

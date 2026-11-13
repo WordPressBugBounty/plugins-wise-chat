@@ -233,6 +233,7 @@ class UserCommandEndpoint extends WiseChatEndpoint {
 	 * @return null
 	 */
 	public function prepareImageEndpoint() {
+		$this->verifyXhrRequest();
 		$this->verifyCheckSum();
 
 		try {
@@ -242,8 +243,11 @@ class UserCommandEndpoint extends WiseChatEndpoint {
 			$this->checkUserAuthorization();
 			$this->checkUserWriteAuthorization();
 
-			$this->checkPostParams(array('data'));
+			$this->checkPostParams(array('data', 'nonce'));
 			$data = $this->getPostParam('data');
+			if (!wp_verify_nonce($this->getPostParam('nonce'), 'endpoint.image')) {
+				throw new \Exception('Invalid nonce');
+			}
 
 			/** @var ImagesService $imagesService */
 			$imagesService = Container::getInstance()->get(ImagesService::class);

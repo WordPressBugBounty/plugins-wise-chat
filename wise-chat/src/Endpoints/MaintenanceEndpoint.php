@@ -117,6 +117,13 @@ class MaintenanceEndpoint extends FrontEndpoint {
 			);
 		}
 
+		$events[] = array(
+			'name' => 'nonces',
+			'data' => [
+				'endpoint.image' => wp_create_nonce("endpoint.image")
+			]
+		);
+
 		return $events;
 	}
 

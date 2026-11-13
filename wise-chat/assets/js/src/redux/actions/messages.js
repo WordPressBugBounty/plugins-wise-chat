@@ -149,7 +149,7 @@ export function refreshMessageReactionsCounters(id, reactions) {
 	}
 }
 
-export function prepareImage(data, channelId) {
+export function prepareImage(data, channelId, params = {}) {
 	return function(dispatch, getState, {engine, configuration}) {
 		dispatch({ type: "message.image", id: channelId, data: { inProgress: true, progress: 0, error: undefined, result: undefined, success: undefined } });
 
@@ -162,7 +162,8 @@ export function prepareImage(data, channelId) {
 			},
 			(error) => {
 				dispatch({ type: "message.image", id: channelId, data: { inProgress: false, success: false, error: error } });
-			}
+			},
+			params
 		);
 	}
 }

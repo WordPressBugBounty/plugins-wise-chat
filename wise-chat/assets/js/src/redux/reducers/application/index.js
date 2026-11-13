@@ -17,6 +17,7 @@ const defaultState = {
 	incomingChats: [], // incoming chats detected in runtime, mostly from yet unknown channels
 	actions: [],
 	i18n: {},
+	nonces: {},
 	heartbeat: {
 		nowTime: undefined
 	}
@@ -99,6 +100,7 @@ export default function application(state = defaultState, action) {
 		case 'checkSum':
 		case 'actions':
 		case 'i18n':
+		case 'nonces':
 			return createState(state, { [action.type]: action.data })
 		case 'application.channel.map':
 			return createState(state, {

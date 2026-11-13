@@ -64,8 +64,9 @@ export default class Engine {
 	 * @param {Function} successListener
 	 * @param {Function} progressListener
 	 * @param {Function} errorListener
+	 * @param {Object} params
 	 */
-	prepareImage(imageSource, successListener, progressListener, errorListener) {
+	prepareImage(imageSource, successListener, progressListener, errorListener, params) {
 		console.log('Not implemented');
 	}
 

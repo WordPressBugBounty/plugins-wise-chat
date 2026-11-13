@@ -3858,7 +3858,9 @@ var Attachments = /*#__PURE__*/function (_React$Component) {
         var fileReader = new FileReader();
 
         fileReader.onload = function (event) {
-          _this2.props.prepareImage(event.target.result, _this2.props.channel.id);
+          _this2.props.prepareImage(event.target.result, _this2.props.channel.id, {
+            nonce: _this2.props.application.nonces['endpoint.image']
+          });
         };
 
         fileReader.readAsDataURL(fileDetails);
@@ -8667,11 +8669,12 @@ var Engine = /*#__PURE__*/function () {
      * @param {Function} successListener
      * @param {Function} progressListener
      * @param {Function} errorListener
+     * @param {Object} params
      */
 
   }, {
     key: "prepareImage",
-    value: function prepareImage(imageSource, successListener, progressListener, errorListener) {
+    value: function prepareImage(imageSource, successListener, progressListener, errorListener, params) {
       console.log('Not implemented');
     }
     /**
@@ -9318,16 +9321,17 @@ var AjaxEngine = /*#__PURE__*/function (_Engine) {
      * @param {Function} successListener
      * @param {Function} progressListener
      * @param {Function} errorListener
+     * @param {Object} params
      */
 
   }, {
     key: "prepareImage",
-    value: function prepareImage(imageSource, successListener, progressListener, errorListener) {
+    value: function prepareImage(imageSource, successListener, progressListener, errorListener, params) {
       if (!this.isInitialized) {
         return;
       }
 
-      this.sender.prepareImage(imageSource, successListener, progressListener, errorListener);
+      this.sender.prepareImage(imageSource, successListener, progressListener, errorListener, params);
     }
     /**
      * Loads a single message.
@@ -9751,6 +9755,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
@@ -9758,6 +9764,10 @@ var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/creat
 var _jquery = _interopRequireDefault(require("jquery"));
 
 var _events = _interopRequireDefault(require("events"));
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 var AjaxEngineSender = /*#__PURE__*/function () {
   /**
@@ -9881,11 +9891,14 @@ var AjaxEngineSender = /*#__PURE__*/function () {
      * @param {Function} successListener
      * @param {Function} progressListener
      * @param {Function} errorListener
+     * @param {Object} params
      */
 
   }, {
     key: "prepareImage",
     value: function prepareImage(imageSource, successListener, progressListener, errorListener) {
+      var params = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
+
       if (!_jquery["default"].isFunction(successListener) || !_jquery["default"].isFunction(progressListener) || !_jquery["default"].isFunction(errorListener)) {
         throw new Error('Missing listeners');
       }
@@ -9896,10 +9909,10 @@ var AjaxEngineSender = /*#__PURE__*/function () {
       _jquery["default"].ajax({
         type: "POST",
         url: this.prepareImageEndpoint,
-        data: {
+        data: _objectSpread({
           data: imageSource,
           checksum: this.configuration.checksum
-        },
+        }, params),
         progressUpload: function progressUpload(event) {
           if (event.lengthComputable) {
             var percent = parseInt(event.loaded / event.total * 100);
@@ -10011,7 +10024,7 @@ var AjaxEngineSender = /*#__PURE__*/function () {
 
 exports["default"] = AjaxEngineSender;
 
-},{"@babel/runtime/helpers/classCallCheck":96,"@babel/runtime/helpers/createClass":98,"@babel/runtime/helpers/interopRequireDefault":103,"events":193,"jquery":238}],64:[function(require,module,exports){
+},{"@babel/runtime/helpers/classCallCheck":96,"@babel/runtime/helpers/createClass":98,"@babel/runtime/helpers/defineProperty":99,"@babel/runtime/helpers/interopRequireDefault":103,"events":193,"jquery":238}],64:[function(require,module,exports){
 "use strict";
 
 var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
@@ -10630,6 +10643,7 @@ function refreshMessageReactionsCounters(id, reactions) {
 }
 
 function prepareImage(data, channelId) {
+  var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   return function (dispatch, getState, _ref4) {
     var engine = _ref4.engine,
         configuration = _ref4.configuration;
@@ -10673,7 +10687,7 @@ function prepareImage(data, channelId) {
           error: error
         }
       });
-    });
+    }, params);
   };
 }
 
@@ -11243,6 +11257,7 @@ var defaultState = {
   // incoming chats detected in runtime, mostly from yet unknown channels
   actions: [],
   i18n: {},
+  nonces: {},
   heartbeat: {
     nowTime: undefined
   }
@@ -11375,6 +11390,7 @@ function application() {
     case 'checkSum':
     case 'actions':
     case 'i18n':
+    case 'nonces':
       return createState(state, (0, _defineProperty2["default"])({}, action.type, action.data));
 
     case 'application.channel.map':

@@ -310,12 +310,13 @@ export default class AjaxEngine extends Engine {
 	 * @param {Function} successListener
 	 * @param {Function} progressListener
 	 * @param {Function} errorListener
+	 * @param {Object} params
 	 */
-	prepareImage(imageSource, successListener, progressListener, errorListener) {
+	prepareImage(imageSource, successListener, progressListener, errorListener, params) {
 		if (!this.isInitialized) {
 			return;
 		}
-		this.sender.prepareImage(imageSource, successListener, progressListener, errorListener);
+		this.sender.prepareImage(imageSource, successListener, progressListener, errorListener, params);
 	}
 
 	/**

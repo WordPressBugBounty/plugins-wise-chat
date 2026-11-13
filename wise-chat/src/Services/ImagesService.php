@@ -90,7 +90,7 @@ class ImagesService {
 	*/
 	public function decodePrefixedBase64ImageData($base64Data) {
 		$prefixData = array();
-		preg_match('/^data:(image\/\w+);base64/', $base64Data, $prefixData);
+		preg_match('/^data:(image\/\w+);base64,[A-Za-z0-9+\/=]+$/', $base64Data, $prefixData);
 		
 		if (!is_array($prefixData) || count($prefixData) < 2) {
 			throw new Exception('Invalid image data');
